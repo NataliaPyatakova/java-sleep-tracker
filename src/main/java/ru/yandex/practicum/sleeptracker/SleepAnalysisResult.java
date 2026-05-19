@@ -13,6 +13,7 @@ public class SleepAnalysisResult {
     public String getDescription() {
         return description;
     }
+
     public int getResult() {
         return result;
     }
@@ -22,6 +23,6 @@ public class SleepAnalysisResult {
         if (result < 0) {
             return description;
         }
-        return description + ": "+ result;
+        return description + ": " + result;
     }
 }
