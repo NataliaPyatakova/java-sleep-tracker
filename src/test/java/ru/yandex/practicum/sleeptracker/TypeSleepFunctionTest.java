@@ -75,6 +75,7 @@ public class TypeSleepFunctionTest {
         SleepAnalysisResult result = function.apply(listSleepingSession);
         assertEquals("Тип пользователя: " + typeSleepLark, result.getDescription());
     }
+
     @Test
     void testCountSleeplessNightsWithOneLarkOneOwlSession() {
         listSleepingSession.add(sessionLark);
@@ -82,6 +83,7 @@ public class TypeSleepFunctionTest {
         SleepAnalysisResult result = function.apply(listSleepingSession);
         assertEquals("Тип пользователя: " + typeSleepDefault, result.getDescription());
     }
+
     @Test
     void testCountSleeplessNightsWithOneLarkOneOwlTwoOtherSession() {
         listSleepingSession.add(session0);
@@ -91,6 +93,7 @@ public class TypeSleepFunctionTest {
         SleepAnalysisResult result = function.apply(listSleepingSession);
         assertEquals("Тип пользователя: " + typeSleepDefault, result.getDescription());
     }
+
     @Test
     void testCountSleeplessNightsWithOneLarkTwoOwlTwoOtherSession() {
         listSleepingSession.add(session0);
@@ -101,6 +104,7 @@ public class TypeSleepFunctionTest {
         SleepAnalysisResult result = function.apply(listSleepingSession);
         assertEquals("Тип пользователя: " + typeSleepOwl, result.getDescription());
     }
+
     @Test
     void testCountSleeplessNightsWithTwoLarkOneOwlTwoOtherSession() {
         listSleepingSession.add(session0);
