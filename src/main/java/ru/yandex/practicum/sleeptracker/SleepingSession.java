@@ -45,15 +45,20 @@ public class SleepingSession {
     }
 
     public static SleepingSession addSleepingSession(String data) {
-        checkData(data);
-        String[] strDataArr = data.split(";");
-        LocalDateTime startDateTime = getLocalDateTime(strDataArr[0]);
-        LocalDateTime endDateTime = getLocalDateTime(strDataArr[1]);
-        SleepQuality sleepQuality = getSleepQuality(strDataArr[2]);
-        if (startDateTime.isAfter(endDateTime)) {
-            throw new WrongSleepingSessionException("Дата начала сессии позже даты конца сессии");
+        try {
+            checkData(data);
+            String[] strDataArr = data.split(";");
+            LocalDateTime startDateTime = getLocalDateTime(strDataArr[0].trim());
+            LocalDateTime endDateTime = getLocalDateTime(strDataArr[1].trim());
+            SleepQuality sleepQuality = getSleepQuality(strDataArr[2].trim());
+            if (startDateTime.isAfter(endDateTime)) {
+                throw new WrongSleepingSessionException("Дата начала сессии позже даты конца сессии");
+            }
+            return new SleepingSession(startDateTime, endDateTime, sleepQuality);
+        } catch (WrongSleepingSessionException e) {
+            System.out.println(e.getMessage());
+            return null;
         }
-        return new SleepingSession(startDateTime, endDateTime, sleepQuality);
     }
 
     public boolean checkDateTime() {
@@ -68,7 +73,7 @@ public class SleepingSession {
     public boolean checkTimeInOwlPeriod() {
         LocalTime startTime = startDateTime.toLocalTime();
         LocalTime endTime = endDateTime.toLocalTime();
-       //начало ночи совы либо после 23 - то есть период с 23 до 24. либо до конца стандартной ночи - то есть период с 00 до 06
+        //начало ночи совы либо после 23 - то есть период с 23 до 24. либо до конца стандартной ночи - то есть период с 00 до 06
         return (startTime.isAfter(START_NIGHT_OWL) || startTime.isBefore(END_NIGHT)) && endTime.isAfter(END_NIGHT_OWL);
     }
 
@@ -92,7 +97,7 @@ public class SleepingSession {
         if (data.isEmpty()) {
             throw new WrongSleepingSessionException("Строка в файле состоит из пробелов");
         }
-        if (data.indexOf(';') != 14 || data.lastIndexOf(';') != 29) {
+        if (data.split(";").length != 3) {
             throw new WrongSleepingSessionException("Неверный формат строки. Ожидаются разделители данных ;");
         }
     }

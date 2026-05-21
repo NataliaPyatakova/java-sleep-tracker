@@ -10,19 +10,17 @@ import java.util.function.Function;
 public class TypeSleepFunction implements Function<List<SleepingSession>, SleepAnalysisResult> {
     @Override
     public SleepAnalysisResult apply(List<SleepingSession> sessions) {
-        TypeSleep typeSleep = TypeSleep.Голубь;
+        String typeSleep = TypeSleep.PIGEON.getDisplayName();
         long countOwlNights = sessions.stream()
                 .filter(SleepingSession::checkTimeInOwlPeriod)
-               // .peek(System.out::println)
                 .count();
         long countLarkNights = sessions.stream()
                 .filter(SleepingSession::checkTimeInLarkPeriod)
-               // .peek(System.out::println)
                 .count();
         if (countOwlNights > countLarkNights) {
-            typeSleep = TypeSleep.Сова;
+            typeSleep = TypeSleep.OWL.getDisplayName();
         } else if (countLarkNights > countOwlNights) {
-            typeSleep = TypeSleep.Жаворонок;
+            typeSleep = TypeSleep.LARK.getDisplayName();
         }
         return new SleepAnalysisResult("Тип пользователя: " + typeSleep, -1);
     }

@@ -21,7 +21,6 @@ public class CountSleeplessNightsFunction implements Function<List<SleepingSessi
                 .max(LocalDateTime::compareTo);
         if (startSessions.isPresent() && endSessions.isPresent()) {
             countAllNights = Period.between(startSessions.get().toLocalDate(), endSessions.get().toLocalDate()).getDays();
-            //System.out.println(ChronoUnit.DAYS.between(startSessions.get().toLocalDate(), endSessions.get().toLocalDate()));
         }
         //считаем сессии с ночным сном - считаем их ночами
         long countNightsWithSleep = sessions.stream()

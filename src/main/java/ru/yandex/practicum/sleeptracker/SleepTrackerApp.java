@@ -3,7 +3,6 @@ package ru.yandex.practicum.sleeptracker;
 import ru.yandex.practicum.sleeptracker.function.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,14 +13,20 @@ import java.util.function.Function;
 
 public class SleepTrackerApp {
 
-    private static final String DIRECTORY = "src" + File.separator + "main" + File.separator + "resources" + File.separator;
-    private static final String LOG_FILE = "sleep_log.txt";
     private static final List<Function<List<SleepingSession>, SleepAnalysisResult>> listFunction = new ArrayList<>();
 
     public static void main(String[] args) {
+        //Приложение должно принимать на вход как аргумент командной строки путь к файлу с логом сна
+        String filePath = "";
+        if (args.length > 0) {
+            filePath = args[0];
+        } else {
+            System.out.println("Не задан путь к файлу");
+            return;
+        }
 
         List<SleepingSession> listSleepingSession = new ArrayList<>();
-        loadSessions(listSleepingSession);
+        loadSessions(listSleepingSession, filePath);
         listFunction.add(new CountAllSessionFunction());
         listFunction.add(new MaxDurationInMinutesFunction());
         listFunction.add(new MinDurationInMinutesFunction());
@@ -32,18 +37,11 @@ public class SleepTrackerApp {
         listFunction.forEach(function -> System.out.println(function.apply(listSleepingSession)));
     }
 
-    public static void loadSessions(List<SleepingSession> listSleepingSession) {
+    private static void loadSessions(List<SleepingSession> listSleepingSession, String filePath) {
 
-        try (FileReader fileReader = new FileReader(DIRECTORY + LOG_FILE, StandardCharsets.UTF_8)) {
+        try (FileReader fileReader = new FileReader(filePath, StandardCharsets.UTF_8)) {
             BufferedReader br = new BufferedReader(fileReader);
-            br.lines().map(line -> {
-                        try {
-                            return SleepingSession.addSleepingSession(line);
-                        } catch (RuntimeException e) {
-                            System.out.println(e.getMessage());
-                            return null;
-                        }
-                    })
+            br.lines().map(SleepingSession::addSleepingSession)
                     .filter(Objects::nonNull)
                     .forEach(listSleepingSession::add);
         } catch (IOException e) {

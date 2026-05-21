@@ -21,9 +21,9 @@ public class TypeSleepFunctionTest {
     private static SleepingSession sessionOwl1;
     private static SleepingSession sessionLark;
     private static SleepingSession sessionLark1;
-    TypeSleep typeSleepDefault = TypeSleep.Голубь;
-    TypeSleep typeSleepOwl = TypeSleep.Сова;
-    TypeSleep typeSleepLark = TypeSleep.Жаворонок;
+    String typeSleepDefault = TypeSleep.PIGEON.getDisplayName();
+    String typeSleepOwl = TypeSleep.OWL.getDisplayName();
+    String typeSleepLark = TypeSleep.LARK.getDisplayName();
 
     @BeforeAll
     public static void setup() {
